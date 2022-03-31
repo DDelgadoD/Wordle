@@ -44,13 +44,13 @@ def word_intro() -> str:
         Any.
 
     """
-    # messages used by the function
+   
     m = {
         "input": "Type your attempt: ",
         "notLen": "Your word hasn't the correct length, it have to be 5 letters long",
         "notWord": "Your input isn't a word, only words are allowed",
     }
-    # Ask for guess
+    
     guess_ = input(m["input"])
     # Checking if word has 5 letters
     if len(guess_) != 5:
@@ -60,7 +60,7 @@ def word_intro() -> str:
     if not guess_.isalpha():
         print(m["notWord"])
         return word_intro()
-    # After pass the checking returns the word in lowercase
+    
     return guess_.lower()
 
 
@@ -79,13 +79,14 @@ def ask_user(question: str) -> bool:
         Anything that user inputs that throw an error is parsed, shows error text and the execution continues.
 
     """
-    # messages used by the function
+    
     m = {"notY": "Please enter a valid input"}
-    # Adding a suffix to the question with indications to answer correctly
+    
     if " (y/n): " not in question:
         question = question + " (y/n): "
     # Ask the user and do the manipulations on the str
     q = str(input(question)).lower()
+    
     # This block tries to use the input to return True, False or asks the question again
     try:
         if q == 'y' or q == "yes":
@@ -117,7 +118,6 @@ def check_game(guess_n: str, secret_: str) -> dict:
         Any
 
     """
-    # Inicialitzing variables
     guess_r = ""
     solved_n = 0
     # for every letter in guess_n we check if is in spot, in word or isn't in word and returns the correct format
@@ -129,11 +129,11 @@ def check_game(guess_n: str, secret_: str) -> dict:
             guess_r = guess_r + not_in_spot(letter)
         else:
             guess_r = guess_r + not_in_word(letter)
-    # Return a dictionary with the formatted word and the number of letters in spot
+    
     return {"word": guess_r, "solved": solved_n}
 
 
-# Statement placed in order to make this script callable to use just the functions
+
 if __name__ == '__main__':
     # Variables to customize tries and path to secrets
     tries = 6
@@ -153,31 +153,23 @@ if __name__ == '__main__':
     # not. If the user selects don't continue repeat is set to False and ends the bucle.
     repeat = True
     while repeat:
-        # We select randomly one of the secrets from secrets list that stores all
-        # secret = ran_choice(secrets)
         secret = ran_choice(secrets)
-        # Here begins the game for the user
         print(PLAY)
-        # This variable stores the number of letters in place and resets in every round
         solved = 0
         for i in range(6):
             # If solved equals 5 all letters are in place, and we have to break the bucle congratulating the user
             if solved == 5:
                 print(GREAT.format(i+1))
                 break
-            # Print the round number of the max tries
             print(STATE.format(i+1, tries))
-            # Calls word_intro what ask user for input and check if it's ok to play
             guess = word_intro()
-            # Check correctly placed letters in the guess
             result = check_game(guess, secret)
-            # Actualizes the solved value in order to see if the for has to be broken
             solved = result["solved"]
-            # Prints the word with the format rules to help to solve the secret to the user
             print(result["word"])
 
         # Ending the bucle if solved is not 5 the program prints message to tell the user that has lost.
         if solved != 5:
             print(SORRY)
+            
         # The program asks if user wants to continue (y/n)
         repeat = ask_user(AGAIN)
