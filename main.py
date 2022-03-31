@@ -55,11 +55,11 @@ def word_intro() -> str:
     # Checking if word has 5 letters
     if len(guess_) != 5:
         print(m["notLen"])
-        word_intro()
+        return word_intro()
     # Checking if input is composed by letters
     if not guess_.isalpha():
         print(m["notWord"])
-        word_intro()
+        return word_intro()
     # After pass the checking returns the word in lowercase
     return guess_.lower()
 
